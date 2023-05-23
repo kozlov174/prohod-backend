@@ -1,6 +1,6 @@
 ﻿namespace Prohod.Domain.Applications;
 
-public interface IApplicationRepository
+public interface IApplicationsRepository
 {
     public Task AddApplication(Application application);
 }

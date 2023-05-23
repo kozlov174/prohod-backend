@@ -2,7 +2,7 @@
 
 namespace Prohod.Domain.Applications;
 
-public interface IApplicationService
+public interface IApplicationsService
 {
     public Task CreateApplication(Form form);
 }

@@ -4,12 +4,12 @@ namespace Prohod.Domain.Forms;
 
 public class FormsService : IFormsService
 {
-    private readonly IApplicationService applicationService;
+    private readonly IApplicationsService applicationsService;
     private readonly IFormsRepository formsRepository;
 
-    public FormsService(IApplicationService applicationService, IFormsRepository formsRepository)
+    public FormsService(IApplicationsService applicationsService, IFormsRepository formsRepository)
     {
-        this.applicationService = applicationService;
+        this.applicationsService = applicationsService;
         this.formsRepository = formsRepository;
     }
 
@@ -17,6 +17,6 @@ public class FormsService : IFormsService
     {
         await formsRepository.AddForm(form);
 
-        await applicationService.CreateApplication(form);
+        await applicationsService.CreateApplication(form);
     }
 }
