@@ -30,7 +30,7 @@ builder.Services
 builder.Services.AddDbContext<PostgresDbContext>(optionsBuilder =>
     optionsBuilder.UseNpgsql(
         builder.Configuration.GetConnectionString(ConnectionStringsNames.PostgreSql)))
-    .AddScoped<IApplicationDbContext, PostgresDbContext>();
+    .AddScoped<IAppDbContext, PostgresDbContext>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IJwtTokensGenerator, JwtTokensGenerator>();

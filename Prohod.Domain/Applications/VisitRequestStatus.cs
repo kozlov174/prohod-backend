@@ -1,6 +1,6 @@
 ﻿namespace Prohod.Domain.Applications;
 
-public enum ApplicationStatus
+public enum VisitRequestStatus
 {
     NotProcessed = 0,
     Reject = 1,

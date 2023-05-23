@@ -7,9 +7,9 @@ namespace Prohod.Infrastructure.Users;
 
 public class UsersRepository : IUsersRepository
 {
-    private readonly IApplicationDbContext dbContext;
+    private readonly IAppDbContext dbContext;
 
-    public UsersRepository(IApplicationDbContext dbContext)
+    public UsersRepository(IAppDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
