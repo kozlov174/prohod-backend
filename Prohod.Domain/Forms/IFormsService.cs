@@ -1,6 +1,8 @@
-﻿namespace Prohod.Domain.Forms;
+﻿using System.Threading.Tasks;
+
+namespace Prohod.Domain.Forms;
 
 public interface IFormsService
 {
-    public Task CreateForm(Form form);
+    public Task ApplyFormAsync(Form form);
 }

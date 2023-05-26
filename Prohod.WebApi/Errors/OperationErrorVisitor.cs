@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Prohod.Domain.ErrorsBase;
+using Prohod.Domain.RepositoriesBase;
 using Prohod.Domain.Users;
 
 namespace Prohod.WebApi.Errors;
 
 public class OperationErrorVisitor : IOperationErrorVisitor<ActionResult>
 {
-    public ActionResult Visit(UserNotFoundError error)
+    public ActionResult Visit<T>(EntityNotFound<T> error)
     {
-        return ToError(StatusCodes.Status404NotFound, error.Message);
+        return ToError(StatusCodes.Status404NotFound, $"{typeof(T).Name} entity was not found");
     }
     
     private static ActionResult ToError(int statusCode, string description)

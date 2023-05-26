@@ -1,22 +1,24 @@
-﻿using Prohod.Domain.Applications;
+﻿using System.Threading.Tasks;
+using Prohod.Domain.RepositoriesBase;
+using Prohod.Domain.VisitRequests;
 
 namespace Prohod.Domain.Forms;
 
 public class FormsService : IFormsService
 {
-    private readonly IVisitRequestsService visitRequestsService;
-    private readonly IFormsRepository formsRepository;
+    private readonly IRepository<VisitRequest> visitRequestsRepository;
+    private readonly IRepository<Form> formsRepository;
 
-    public FormsService(IVisitRequestsService visitRequestsService, IFormsRepository formsRepository)
+    public FormsService(IRepository<VisitRequest> visitRequestsRepository, IRepository<Form> formsRepository)
     {
-        this.visitRequestsService = visitRequestsService;
+        this.visitRequestsRepository = visitRequestsRepository;
         this.formsRepository = formsRepository;
     }
 
-    public async Task CreateForm(Form form)
+    public async Task ApplyFormAsync(Form form)
     {
-        await formsRepository.AddForm(form);
+        await formsRepository.AddAsync(form);
 
-        await visitRequestsService.CreateVisitRequest(form);
+        await visitRequestsRepository.AddAsync(new VisitRequest { FormId = form.Id });
     }
 }

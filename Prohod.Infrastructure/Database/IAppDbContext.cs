@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Prohod.Domain.Applications;
-using Prohod.Domain.Users;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Prohod.Infrastructure.Database;
 
 public interface IAppDbContext
 {
-    public DbSet<User> Users { get; }
-    
-    public DbSet<VisitRequest> VisitRequests { get; }
+    DbSet<T> Set<T>()
+        where T : class;
 
     public Task<int> SaveChangesAsync();
 }
