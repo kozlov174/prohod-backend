@@ -1,5 +1,4 @@
 ﻿using Prohod.Domain.RepositoriesBase;
-using Prohod.Domain.Users;
 
 namespace Prohod.Domain.ErrorsBase;
 

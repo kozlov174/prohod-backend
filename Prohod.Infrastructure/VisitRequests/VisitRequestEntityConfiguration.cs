@@ -11,13 +11,33 @@ public class VisitRequestEntityConfiguration : IEntityTypeConfiguration<VisitReq
     public void Configure(EntityTypeBuilder<VisitRequest> builder)
     {
         builder
-            .HasOne<User>()
-            .WithMany()
-            .HasForeignKey(request => request.WhoProcessedId);
+            .Property(request => request.Id)
+            .HasColumnName(nameof(VisitRequest.Id))
+            .HasConversion(id => id.Value, guid => new(guid));
+        
+        builder
+            .Property(request => request.FormId)
+            .HasConversion(id => id.Value, guid => new(guid))
+            .HasColumnName(nameof(VisitRequest.FormId));
 
         builder
             .HasOne<Form>()
             .WithOne()
             .HasForeignKey<VisitRequest>(request => request.FormId);
+        
+        builder
+            .Property(request => request.WhoProcessedId)
+            .HasConversion(id => id!.Value, guid => new(guid))
+            .HasColumnName(nameof(VisitRequest.WhoProcessedId));
+        
+        builder
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(request => request.WhoProcessedId);
+        
+        builder
+            .OwnsOne<RejectionReason>(request => request.RejectionReason)
+            .Property(reason => reason.Value)
+            .HasColumnName(nameof(VisitRequest.RejectionReason));
     }
 }

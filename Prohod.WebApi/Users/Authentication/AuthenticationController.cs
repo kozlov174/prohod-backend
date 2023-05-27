@@ -41,6 +41,6 @@ public class AuthenticationController : ControllerBase
             return fault.Accept(errorsVisitor);
         }
         
-        return new LoginResponse(mapper.Map<UserResponseDto>(authenticatedUser.User), authenticatedUser.Token);
+        return new LoginResponse(mapper.Map<UserDto>(authenticatedUser.User), authenticatedUser.Token);
     }
 }

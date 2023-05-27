@@ -1,24 +1,17 @@
 ﻿using System;
+using Prohod.Domain.Users;
 
 namespace Prohod.Domain.Forms;
 
-public record Form
+public class Form
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public FormId Id { get; init; } = new(Guid.NewGuid());
     
-    public required string FullName { get; init; }
+    public required Passport Passport { get; init; }
     
-    public required string PassportSeries { get; init; }
+    public required VisitTime VisitTime { get; init; }
     
-    public required string PassportNumber { get; init; }
+    public required UserId UserToVisitId { get; init; }
     
-    public required string WhoIssued { get; init; }
-    
-    public required DateTimeOffset IssueDate { get; init; }
-    
-    public required DateTimeOffset VisitTime { get; init; }
-    
-    public required Guid UserToVisitId { get; init; }
-    
-    public required string Email { get; init; }
+    public required EmailToSendReply EmailToSendReply { get; init; }
 }

@@ -25,9 +25,9 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<Result<EntityNotFound<User>, AuthenticatedUser>> AuthenticateAsync(string login, string password)
     {
-        var passwordHash = passwordsHashCalculator.CalculatePasswordHash(password);
+        var passwordHash = passwordsHashCalculator.CalculatePasswordHash(password); 
         var getUserResult = await usersRepository.GetBySpecification(
-            user => user.Login == login && user.PasswordHash == passwordHash);
+            userInDb => userInDb.Login.Value == login && userInDb.PasswordHash.Value == passwordHash);
 
         if (!getUserResult.TryGetValue(out var user, out var fault))
         {

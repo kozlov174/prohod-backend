@@ -6,13 +6,13 @@ namespace Prohod.Domain.VisitRequests;
 
 public record VisitRequest
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public VisitRequestId Id { get; init; } = new(Guid.NewGuid());
     
-    public required Guid FormId { get; init; }
+    public required FormId FormId { get; init; }
 
-    public Guid? WhoProcessedId { get; init; } = null;
+    public UserId? WhoProcessedId { get; init; } = null;
 
     public VisitRequestStatus Status { get; init; } = VisitRequestStatus.NotProcessed;
 
-    public string? RejectionReason { get; init; } = null;
+    public RejectionReason? RejectionReason { get; init; } = null;
 }
