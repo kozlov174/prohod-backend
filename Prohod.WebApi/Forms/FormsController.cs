@@ -18,7 +18,7 @@ public class FormsController : ControllerBase
         this.mapper = mapper;
     }
 
-    [HttpPost("/apply")]
+    [HttpPost("apply")]
     public async Task<ActionResult> ApplyForm(ApplyFormRequest request)
     {
         var form = mapper.Map<Form>(request.Form);

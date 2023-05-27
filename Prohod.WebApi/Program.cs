@@ -7,10 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prohod.Domain.ErrorsBase;
+using Prohod.Domain.Forms;
 using Prohod.Domain.RepositoriesBase;
-using Prohod.Domain.Users;
 using Prohod.Infrastructure.Database;
-using Prohod.Infrastructure.Users;
 using Prohod.Infrastructure.Users.Authentication;
 using Prohod.Infrastructure.Users.Authentication.JwtTokens;
 using Prohod.Infrastructure.Users.Authentication.Options;
@@ -48,6 +47,8 @@ builder.Services.AddOptions<AuthenticationOptions>();
 builder.Services.ConfigureOptions<ConfigureAuthenticationOptions>();
 builder.Services.ConfigureOptions<ConfigureJwtBearerOptions>();
 builder.Services.ConfigureOptions<ConfigurePasswordsSaltOptions>();
+
+builder.Services.AddScoped<IFormsService, FormsService>();
 
 var app = builder.Build();
 

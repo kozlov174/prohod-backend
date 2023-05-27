@@ -11,8 +11,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     {
         builder
             .Property(user => user.Id)
-            .HasConversion(id => id.Value, guid => new(guid))
-            .HasColumnName(nameof(User.Id));
+            .HasConversion(id => id.Value, guid => new(guid));
         
         builder
             .OwnsOne<Name>(user => user.Name)

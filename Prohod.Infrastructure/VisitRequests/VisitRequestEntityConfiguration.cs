@@ -12,13 +12,11 @@ public class VisitRequestEntityConfiguration : IEntityTypeConfiguration<VisitReq
     {
         builder
             .Property(request => request.Id)
-            .HasColumnName(nameof(VisitRequest.Id))
             .HasConversion(id => id.Value, guid => new(guid));
         
         builder
             .Property(request => request.FormId)
-            .HasConversion(id => id.Value, guid => new(guid))
-            .HasColumnName(nameof(VisitRequest.FormId));
+            .HasConversion(id => id.Value, guid => new(guid));
 
         builder
             .HasOne<Form>()
@@ -27,8 +25,7 @@ public class VisitRequestEntityConfiguration : IEntityTypeConfiguration<VisitReq
         
         builder
             .Property(request => request.WhoProcessedId)
-            .HasConversion(id => id!.Value, guid => new(guid))
-            .HasColumnName(nameof(VisitRequest.WhoProcessedId));
+            .HasConversion(id => id!.Value, guid => new(guid));
         
         builder
             .HasOne<User>()

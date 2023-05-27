@@ -10,4 +10,4 @@ public record FormDto(
     DateTimeOffset IssueDate,
     DateTimeOffset VisitTime,
     Guid UserToVisitId,
-    string Email);
+    string EmailToSendReply);

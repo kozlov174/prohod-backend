@@ -33,11 +33,11 @@ namespace Prohod.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    FullName = table.Column<string>(type: "text", nullable: false),
-                    PassportSeries = table.Column<string>(type: "text", nullable: false),
-                    PassportNumber = table.Column<string>(type: "text", nullable: false),
-                    WhoIssued = table.Column<string>(type: "text", nullable: false),
-                    IssueDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Passport_FullName = table.Column<string>(type: "text", nullable: false),
+                    Passport_Series = table.Column<string>(type: "text", nullable: false),
+                    Passport_Number = table.Column<string>(type: "text", nullable: false),
+                    Passport_WhoIssued = table.Column<string>(type: "text", nullable: false),
+                    Passport_IssueDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     VisitTime = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UserToVisitId = table.Column<Guid>(type: "uuid", nullable: false),
                     EmailToSendReply = table.Column<string>(type: "text", nullable: false)

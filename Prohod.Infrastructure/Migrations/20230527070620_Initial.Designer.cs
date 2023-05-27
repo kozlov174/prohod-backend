@@ -12,7 +12,7 @@ using Prohod.Infrastructure.Database;
 namespace Prohod.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20230527062825_Initial")]
+    [Migration("20230527070620_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -28,12 +28,10 @@ namespace Prohod.Infrastructure.Migrations
             modelBuilder.Entity("Prohod.Domain.Forms.Form", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UserToVisitId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("UserToVisitId");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -45,8 +43,7 @@ namespace Prohod.Infrastructure.Migrations
             modelBuilder.Entity("Prohod.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Role")
                         .HasColumnType("integer");
@@ -59,19 +56,16 @@ namespace Prohod.Infrastructure.Migrations
             modelBuilder.Entity("Prohod.Domain.VisitRequests.VisitRequest", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("FormId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("FormId");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<Guid?>("WhoProcessedId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("WhoProcessedId");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -116,27 +110,22 @@ namespace Prohod.Infrastructure.Migrations
 
                             b1.Property<string>("FullName")
                                 .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("FullName");
+                                .HasColumnType("text");
 
                             b1.Property<DateTimeOffset>("IssueDate")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("IssueDate");
+                                .HasColumnType("timestamp with time zone");
 
-                            b1.Property<string>("PassportNumber")
+                            b1.Property<string>("Number")
                                 .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("PassportNumber");
+                                .HasColumnType("text");
 
-                            b1.Property<string>("PassportSeries")
+                            b1.Property<string>("Series")
                                 .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("PassportSeries");
+                                .HasColumnType("text");
 
                             b1.Property<string>("WhoIssued")
                                 .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("WhoIssued");
+                                .HasColumnType("text");
 
                             b1.HasKey("FormId");
 

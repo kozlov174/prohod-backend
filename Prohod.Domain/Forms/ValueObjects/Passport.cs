@@ -2,7 +2,7 @@
 
 public record Passport(
     FullName FullName,
-    PassportSeries PassportSeries,
-    PassportNumber PassportNumber,
+    PassportSeries Series,
+    PassportNumber Number,
     WhoIssued WhoIssued,
     IssueDate IssueDate);
