@@ -9,7 +9,7 @@ using Prohod.WebApi.Users.Models;
 
 namespace Prohod.WebApi.Users.Authentication;
 
-[Route("/api/auth")]
+[Route("/api/v1/auth")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IAuthenticationService authenticationService;

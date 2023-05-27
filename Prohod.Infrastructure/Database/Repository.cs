@@ -24,7 +24,7 @@ public class Repository<T> : IRepository<T>
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<Result<EntityNotFound<T>, T>> GetBySpecification(Expression<Func<T, bool>> specification)
+    public async Task<Result<EntityNotFound<T>, T>> Get(Expression<Func<T, bool>> specification)
     {
         var entity = await dbContext.Set<T>().SingleOrDefaultAsync(specification);
 
@@ -35,4 +35,7 @@ public class Repository<T> : IRepository<T>
         
         return entity;
     }
+
+    public async Task<bool> Exists(Expression<Func<T, bool>> specification)
+        => await dbContext.Set<T>().AnyAsync(specification);
 }

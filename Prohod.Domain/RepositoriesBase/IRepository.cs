@@ -9,5 +9,7 @@ public interface IRepository<T>
 {
     public Task AddAsync(T entity);
 
-    public Task<Result<EntityNotFound<T>, T>> GetBySpecification(Expression<Func<T, bool>> specification);
+    public Task<Result<EntityNotFound<T>, T>> Get(Expression<Func<T, bool>> specification);
+
+    public Task<bool> Exists(Expression<Func<T, bool>> specification);
 }
