@@ -13,7 +13,6 @@ using Prohod.WebApi.VisitRequests.Models.GetUserProcessedVisitRequestsPage;
 namespace Prohod.WebApi.VisitRequests;
 
 [Route("/api/v1/visit-requests")]
-[ProducesResponseType(StatusCodes.Status200OK)]
 [ProducesResponseType(StatusCodes.Status400BadRequest)]
 [ProducesResponseType(StatusCodes.Status401Unauthorized)]
 [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -38,6 +37,7 @@ public class VisitRequestsController : ControllerBase
     }
 
     [HttpPost("apply")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> ApplyForm(ApplyFormRequest request)
     {
         var form = mapper.Map<Form>(request.Form);
@@ -51,6 +51,7 @@ public class VisitRequestsController : ControllerBase
     
     [AuthorizedRoles(Role.Security)]
     [HttpGet("statuses/not-processed")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<GetNotProcessedVisitRequestsPageResponse>> GetNotProcessedVisitRequestsPage(
         [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
@@ -63,6 +64,7 @@ public class VisitRequestsController : ControllerBase
     
     [AuthorizedRoles(Role.Security)]
     [HttpGet("statuses/user-processed")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<GetUserProcessedVisitRequestsPageResponse>> GetUserProcessedVisitRequestsPage(
         [FromQuery] Guid userId, [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
@@ -75,6 +77,7 @@ public class VisitRequestsController : ControllerBase
 
     [AuthorizedRoles(Role.Admin)]
     [HttpGet("statuses/all")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<GetAllVisitRequestsPageResponse>> GetAllVisitRequestsAggregationsPage(
         [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
