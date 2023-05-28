@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;
 using Prohod.Domain.VisitRequests.Forms;
@@ -16,35 +17,19 @@ public class VisitRequestsRepository : IVisitRequestsRepository
     }
     
     public async Task<IReadOnlyCollection<VisitRequestAggregated>> GetVisitRequestsPage(
-        VisitRequestStatus[] possibleStatus, int offset, int limit)
+        Expression<Func<VisitRequest, bool>> predicate, int offset, int limit)
     {
         var forms = dbContext.Set<Form>();
         var requests = dbContext.Set<VisitRequest>();
         var users = dbContext.Set<User>();
         var query =
-            from request in requests
-            where possibleStatus.Contains(request.Status)
+            from request in requests.Where(predicate)
             join form in forms on request.FormId equals form.Id
-            join user in users on form.UserToVisitId equals user.Id
+            join userToVisit in users on form.UserToVisitId equals userToVisit.Id
+            join whoProcessed in users on request.WhoProcessedId equals whoProcessed.Id into grouping
+            from whoProcessed in grouping.DefaultIfEmpty()
             orderby form.VisitTime
-            select new VisitRequestAggregated(request.Id, new(form, user), null, request.Status, null);
-        
-        return await query.ToListAsync();
-    }
-
-    public async Task<IReadOnlyCollection<VisitRequestAggregated>> GetUserVisitRequestsPage(UserId userId, int offset, int limit)
-    {
-        var forms = dbContext.Set<Form>();
-        var requests = dbContext.Set<VisitRequest>();
-        var users = dbContext.Set<User>();
-        var query =
-            from request in requests
-            where request.WhoProcessedId == userId
-            join form in forms on request.FormId equals form.Id
-            join user in users on form.UserToVisitId equals user.Id
-            orderby form.VisitTime
-            select new VisitRequestAggregated(request, new(form, user));
-        
+            select new VisitRequestAggregated(request, new(form, userToVisit), whoProcessed);
         return await query.ToListAsync();
     }
 }

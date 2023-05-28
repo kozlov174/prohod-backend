@@ -1,6 +1,4 @@
-using Prohod.WebApi.VisitRequests.Models.Dto;
-
-namespace Prohod.WebApi.VisitRequests.Models.Responses;
+namespace Prohod.WebApi.VisitRequests.Models.GetNotProcessedVisitRequestsPage;
 
 public record GetNotProcessedVisitRequestsPageResponse(
     IEnumerable<NotProcessedVisitRequestAggregatedDto> VisitRequest);

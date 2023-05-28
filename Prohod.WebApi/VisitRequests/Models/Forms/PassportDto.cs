@@ -1,4 +1,4 @@
-namespace Prohod.WebApi.VisitRequests.Models.Dto;
+namespace Prohod.WebApi.VisitRequests.Models.Forms;
 
 public record PassportDto(
     string FullName,

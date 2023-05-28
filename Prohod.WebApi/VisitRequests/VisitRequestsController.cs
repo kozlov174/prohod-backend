@@ -5,9 +5,10 @@ using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;
 using Prohod.Domain.VisitRequests.Forms;
 using Prohod.WebApi.Users.Authorization;
-using Prohod.WebApi.VisitRequests.Models.Dto;
-using Prohod.WebApi.VisitRequests.Models.Requests;
-using Prohod.WebApi.VisitRequests.Models.Responses;
+using Prohod.WebApi.VisitRequests.Models.ApplyForm;
+using Prohod.WebApi.VisitRequests.Models.GetAllVisitRequestsPage;
+using Prohod.WebApi.VisitRequests.Models.GetNotProcessedVisitRequestsPage;
+using Prohod.WebApi.VisitRequests.Models.GetUserProcessedVisitRequestsPage;
 
 namespace Prohod.WebApi.VisitRequests;
 
@@ -54,10 +55,10 @@ public class VisitRequestsController : ControllerBase
         [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
         var visitRequests = await visitRequestsRepository.GetVisitRequestsPage(
-            new[] { VisitRequestStatus.NotProcessed }, offset, limit);
+            request => request.Status == VisitRequestStatus.NotProcessed, offset, limit);
 
         return new GetNotProcessedVisitRequestsPageResponse(
-            mapper.Map<IEnumerable<NotProcessedVisitRequestAggregatedDto>>(visitRequests));
+            mapper.Map<NotProcessedVisitRequestAggregatedDto[]>(visitRequests));
     }
     
     [AuthorizedRoles(Role.Security)]
@@ -65,10 +66,11 @@ public class VisitRequestsController : ControllerBase
     public async Task<ActionResult<GetUserProcessedVisitRequestsPageResponse>> GetUserProcessedVisitRequestsPage(
         [FromQuery] Guid userId, [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
-        var visitRequests = await visitRequestsRepository.GetUserVisitRequestsPage(new(userId), offset, limit);
+        var visitRequests = await visitRequestsRepository.GetVisitRequestsPage(
+            request => request.WhoProcessedId == new UserId(userId), offset, limit);
 
         return new GetUserProcessedVisitRequestsPageResponse(
-            mapper.Map<IEnumerable<UserProcessedVisitRequestAggregatedDto>>(visitRequests));
+            mapper.Map<UserProcessedVisitRequestAggregatedDto[]>(visitRequests));
     }
 
     [AuthorizedRoles(Role.Admin)]
@@ -76,12 +78,12 @@ public class VisitRequestsController : ControllerBase
     public async Task<ActionResult<GetAllVisitRequestsPageResponse>> GetAllVisitRequestsAggregationsPage(
         [FromQuery] int offset = 0, [FromQuery] int limit = 10)
     {
+        var possibleStatuses =
+            new[] { VisitRequestStatus.NotProcessed, VisitRequestStatus.Accept, VisitRequestStatus.Reject };
         var visitRequests = await visitRequestsRepository.GetVisitRequestsPage(
-            new[] { VisitRequestStatus.NotProcessed, VisitRequestStatus.Accept, VisitRequestStatus.Reject },
-            offset,
-            limit);
+            request => possibleStatuses.Contains(request.Status), offset, limit);
 
         return new GetAllVisitRequestsPageResponse(
-            mapper.Map<IEnumerable<VisitRequestAggregatedDto>>(visitRequests));
+            mapper.Map<VisitRequestAggregatedDto[]>(visitRequests));
     }
 }

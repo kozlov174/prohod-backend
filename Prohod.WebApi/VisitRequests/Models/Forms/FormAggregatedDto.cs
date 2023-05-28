@@ -1,6 +1,6 @@
 ﻿using Prohod.WebApi.Users.Models;
 
-namespace Prohod.WebApi.VisitRequests.Models.Dto;
+namespace Prohod.WebApi.VisitRequests.Models.Forms;
 
 public record FormAggregatedDto(
     Guid Id,

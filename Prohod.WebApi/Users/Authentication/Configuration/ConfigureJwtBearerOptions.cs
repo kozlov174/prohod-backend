@@ -6,7 +6,7 @@ using Prohod.Infrastructure.Users.Authentication.Options;
 
 namespace Prohod.WebApi.Users.Authentication.Configuration;
 
-internal class ConfigureJwtBearerOptions : IConfigureOptions<JwtBearerOptions>
+internal class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
 {
     private readonly IOptions<AuthenticationOptions> authenticationOptions;
 
@@ -15,9 +15,24 @@ internal class ConfigureJwtBearerOptions : IConfigureOptions<JwtBearerOptions>
         this.authenticationOptions = authenticationOptions;
     }
 
+    public void Configure(string? name, JwtBearerOptions options)
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidIssuer = authenticationOptions.Value.Issuer,
+            ValidAudience = authenticationOptions.Value.Audience,
+            ValidateLifetime = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(authenticationOptions.Value.SigningKey)),
+            ValidateIssuerSigningKey = true,
+        };
+    }
+
     public void Configure(JwtBearerOptions options)
     {
-        options.TokenValidationParameters = new TokenValidationParameters()
+        options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = true,
             ValidateIssuer = true,

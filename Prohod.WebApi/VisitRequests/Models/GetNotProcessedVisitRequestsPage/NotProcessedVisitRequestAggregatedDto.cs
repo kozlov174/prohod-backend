@@ -1,4 +1,6 @@
-namespace Prohod.WebApi.VisitRequests.Models.Dto;
+using Prohod.WebApi.VisitRequests.Models.Forms;
+
+namespace Prohod.WebApi.VisitRequests.Models.GetNotProcessedVisitRequestsPage;
 
 public record NotProcessedVisitRequestAggregatedDto(
     Guid Id,

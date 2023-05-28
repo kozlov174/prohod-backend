@@ -10,31 +10,30 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     {
         builder
             .Property(user => user.Id)
-            .HasConversion(id => id.Value, guid => new UserId(guid));
+            .HasConversion(id => id.Value, guid => new(guid));
         
         builder
-            .OwnsOne<Name>(user => user.Name)
-            .Property(name => name.Value)
-            .HasColumnName(nameof(User.Name));
+            .Property(user => user.Name)
+            .HasConversion(name => name.Value, str => new(str));
         
         builder
-            .OwnsOne<Surname>(user => user.Surname)
-            .Property(surname => surname.Value)
-            .HasColumnName(nameof(User.Surname));
+            .Property(user => user.Surname)
+            .HasConversion(surname => surname.Value, str => new(str));
+
+        builder
+            .Property(user => user.Login)
+            .HasConversion(login => login.Value, str => new(str));
+
+        builder
+            .HasIndex(user => user.Login)
+            .IsUnique();
         
         builder
-            .OwnsOne<Login>(user => user.Login)
-            .Property(login => login.Value)
-            .HasColumnName(nameof(User.Login));
+            .Property(user => user.PasswordHash)
+            .HasConversion(hash => hash.Value, str => new(str));
         
         builder
-            .OwnsOne<PasswordHash>(user => user.PasswordHash)
-            .Property(passwordHash => passwordHash.Value)
-            .HasColumnName(nameof(User.PasswordHash));
-        
-        builder
-            .OwnsOne<UserEmail>(user => user.UserEmail)
-            .Property(email => email.Value)
-            .HasColumnName(nameof(User.UserEmail));
+            .Property(user => user.UserEmail)
+            .HasConversion(email => email.Value, str => new(str));
     }
 }

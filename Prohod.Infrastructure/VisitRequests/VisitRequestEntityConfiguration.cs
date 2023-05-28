@@ -33,8 +33,7 @@ public class VisitRequestEntityConfiguration : IEntityTypeConfiguration<VisitReq
             .HasForeignKey(request => request.WhoProcessedId);
         
         builder
-            .OwnsOne<RejectionReason>(request => request.RejectionReason)
-            .Property(reason => reason.Value)
-            .HasColumnName(nameof(VisitRequest.RejectionReason));
+            .Property(request => request.RejectionReason)
+            .HasConversion(reason => reason!.Value, str => new(str));
     }
 }

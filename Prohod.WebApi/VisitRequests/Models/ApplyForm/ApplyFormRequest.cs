@@ -1,5 +1,5 @@
-using Prohod.WebApi.VisitRequests.Models.Dto;
+using Prohod.WebApi.VisitRequests.Models.Forms;
 
-namespace Prohod.WebApi.VisitRequests.Models.Requests;
+namespace Prohod.WebApi.VisitRequests.Models.ApplyForm;
 
 public record ApplyFormRequest(FormDto Form);

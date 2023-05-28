@@ -26,7 +26,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var passwordHash = passwordsHashCalculator.CalculatePasswordHash(password); 
         var getUserResult = await usersRepository.SingleAsync(
-            userInDb => userInDb.Login.Value == login && userInDb.PasswordHash.Value == passwordHash);
+            userInDb => userInDb.Login == new Login(login) && userInDb.PasswordHash == new PasswordHash(passwordHash));
 
         if (!getUserResult.TryGetValue(out var user, out var fault))
         {

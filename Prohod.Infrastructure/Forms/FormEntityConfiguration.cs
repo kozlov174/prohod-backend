@@ -15,26 +15,34 @@ public class FormEntityConfiguration : IEntityTypeConfiguration<Form>
 
         builder.OwnsOne(form => form.Passport, passport =>
         {
-            passport.Property(properties => properties.FullName)
+            passport
+                .Property(properties => properties.FullName)
                 .HasConversion(name => name.Value, str => new(str));
             
-            passport.Property(properties => properties.Series)
+            passport
+                .Property(properties => properties.Series)
                 .HasConversion(passportSeries => passportSeries.Value, str => new(str));
             
-            passport.Property(properties => properties.Number)
+            passport
+                .Property(properties => properties.Number)
                 .HasConversion(passportNumber => passportNumber.Value, str => new(str));
             
-            passport.Property(properties => properties.WhoIssued)
+            passport
+                .Property(properties => properties.WhoIssued)
                 .HasConversion(whoIssued => whoIssued.Value, str => new(str));
             
-            passport.Property(properties => properties.IssueDate)
+            passport
+                .Property(properties => properties.IssueDate)
                 .HasConversion(issueDate => issueDate.Value, date => new(date));
         });
 
         builder
-            .OwnsOne(form => form.VisitTime)
-            .Property(time => time.Value)
-            .HasColumnName(nameof(Form.VisitTime));
+            .Property(form => form.VisitTime)
+            .HasConversion(time => time.Value, dateTime => new(dateTime));
+        
+        builder
+            .Property(form => form.VisitReason)
+            .HasConversion(reason => reason.Value, str => new(str));
         
         builder
             .Property(form => form.UserToVisitId)
@@ -46,13 +54,8 @@ public class FormEntityConfiguration : IEntityTypeConfiguration<Form>
             .HasForeignKey(form => form.UserToVisitId);
 
         builder
-            .OwnsOne(form => form.EmailToSendReply)
-            .Property(email => email.Value)
-            .HasColumnName(nameof(Form.EmailToSendReply));
-
-        builder
-            .OwnsOne(form => form.VisitReason)
-            .Property(reason => reason.Value)
-            .HasColumnName(nameof(Form.VisitReason));
+            .Property(form => form.EmailToSendReply)
+            .HasConversion(time => time.Value, str => new(str));
+        
     }
 }

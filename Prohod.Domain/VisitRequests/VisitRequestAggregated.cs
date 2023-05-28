@@ -10,12 +10,8 @@ public record VisitRequestAggregated(
     VisitRequestStatus Status,
     RejectionReason? RejectionReason)
 {
-    public VisitRequestAggregated(VisitRequest visitRequest, FormAggregated form) :
-        this(visitRequest.Id, form, null, visitRequest.Status, null)
+    public VisitRequestAggregated(VisitRequest visitRequest, FormAggregated form, User? whoProcessed) 
+        : this(visitRequest.Id, form, whoProcessed, visitRequest.Status, visitRequest.RejectionReason)
     {
-        if (visitRequest.FormId != form.Id)
-        {
-            throw new ArgumentException("Visit request form id should match provided form id");
-        }
     }
-}
+};

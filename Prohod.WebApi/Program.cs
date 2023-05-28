@@ -63,12 +63,13 @@ builder.Services.AddAuthorization();
 builder.Services.AddOptions<PasswordsSalt>();
 builder.Services.AddOptions<AuthenticationOptions>();
 builder.Services.ConfigureOptions<ConfigureAuthenticationOptions>();
-builder.Services.ConfigureOptions<ConfigureJwtBearerOptions>();
 builder.Services.ConfigureOptions<ConfigurePasswordsSaltOptions>();
 
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer();
+
+builder.Services.ConfigureOptions<ConfigureJwtBearerOptions>();
 
 builder.Services.AddDbContext<PostgresDbContext>(options =>
     {
@@ -82,10 +83,11 @@ builder.Services.AddAutoMapper(
     configuration => configuration
             .AddProfiles(new Profile[]
             {
-                new FormAggregationDtoProfile(),
+                new FormAggregatedDtoProfile(),
                 new FormDtoProfile(),
                 new UserDtoProfile(),
-                new VisitRequestAggregatedProfile()
+                new VisitRequestAggregatedProfile(),
+                new PassportDtoProfile()
             }));
 
 builder.Services.AddScoped<IJwtTokensGenerator, JwtTokensGenerator>();

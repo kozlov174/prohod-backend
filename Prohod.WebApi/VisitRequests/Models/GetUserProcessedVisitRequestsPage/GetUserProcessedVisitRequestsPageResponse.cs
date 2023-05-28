@@ -1,5 +1,3 @@
-﻿using Prohod.WebApi.VisitRequests.Models.Dto;
-
-namespace Prohod.WebApi.VisitRequests.Models.Responses;
+﻿namespace Prohod.WebApi.VisitRequests.Models.GetUserProcessedVisitRequestsPage;
 
 public record GetUserProcessedVisitRequestsPageResponse(IEnumerable<UserProcessedVisitRequestAggregatedDto> VisitRequests);
