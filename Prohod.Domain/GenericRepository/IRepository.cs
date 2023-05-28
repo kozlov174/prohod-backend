@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Kontur.Results;
 
-namespace Prohod.Domain.RepositoriesBase;
+namespace Prohod.Domain.GenericRepository;
 
 public interface IRepository<T>
 {

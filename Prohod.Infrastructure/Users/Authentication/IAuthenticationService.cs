@@ -1,5 +1,5 @@
 ﻿using Kontur.Results;
-using Prohod.Domain.RepositoriesBase;
+using Prohod.Domain.GenericRepository;
 using Prohod.Domain.Users;
 
 namespace Prohod.Infrastructure.Users.Authentication;

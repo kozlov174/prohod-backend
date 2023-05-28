@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Kontur.Results;
 using Microsoft.EntityFrameworkCore;
-using Prohod.Domain.RepositoriesBase;
+using Prohod.Domain.GenericRepository;
 
 namespace Prohod.Infrastructure.Database;
 

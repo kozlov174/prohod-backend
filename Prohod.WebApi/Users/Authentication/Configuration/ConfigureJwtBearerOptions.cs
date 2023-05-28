@@ -8,6 +8,7 @@ namespace Prohod.WebApi.Users.Authentication.Configuration;
 
 internal class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
 {
+    private const string DefaultJwtBearerOptionsName = "Bearer";
     private readonly IOptions<AuthenticationOptions> authenticationOptions;
 
     public ConfigureJwtBearerOptions(IOptions<AuthenticationOptions> authenticationOptions)
@@ -17,17 +18,12 @@ internal class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptio
 
     public void Configure(string? name, JwtBearerOptions options)
     {
-        options.TokenValidationParameters = new TokenValidationParameters
+        if (name is not null and not DefaultJwtBearerOptionsName)
         {
-            ValidateAudience = true,
-            ValidateIssuer = true,
-            ValidIssuer = authenticationOptions.Value.Issuer,
-            ValidAudience = authenticationOptions.Value.Audience,
-            ValidateLifetime = true,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(authenticationOptions.Value.SigningKey)),
-            ValidateIssuerSigningKey = true,
-        };
+            return;
+        }
+        
+        Configure(options);
     }
 
     public void Configure(JwtBearerOptions options)

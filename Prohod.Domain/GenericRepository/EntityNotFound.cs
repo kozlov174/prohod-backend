@@ -1,6 +1,6 @@
 ﻿using Prohod.Domain.ErrorsBase;
 
-namespace Prohod.Domain.RepositoriesBase;
+namespace Prohod.Domain.GenericRepository;
 
 public record EntityNotFound<TEntity> : IOperationError
 {

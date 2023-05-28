@@ -1,4 +1,4 @@
-﻿using Prohod.Domain.RepositoriesBase;
+﻿using Prohod.Domain.GenericRepository;
 using Prohod.Domain.Users.Errors;
 
 namespace Prohod.Domain.ErrorsBase;

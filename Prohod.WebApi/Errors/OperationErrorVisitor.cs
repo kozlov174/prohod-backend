@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Prohod.Domain.ErrorsBase;
-using Prohod.Domain.RepositoriesBase;
+using Prohod.Domain.GenericRepository;
 using Prohod.Domain.Users.Errors;
 
 namespace Prohod.WebApi.Errors;
