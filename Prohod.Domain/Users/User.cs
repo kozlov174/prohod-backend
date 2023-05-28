@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Prohod.Domain.Users;
+﻿namespace Prohod.Domain.Users;
 
 public record User
 {
@@ -14,7 +12,7 @@ public record User
     
     public required PasswordHash PasswordHash { get; init; }
     
-    public required Email Email { get; init; }
+    public required UserEmail UserEmail { get; init; }
     
     public required Role Role { get; init; }
 }

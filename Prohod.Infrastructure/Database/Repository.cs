@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using Kontur.Results;
 using Microsoft.EntityFrameworkCore;
 using Prohod.Domain.RepositoriesBase;
@@ -24,7 +22,7 @@ public class Repository<T> : IRepository<T>
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<Result<EntityNotFound<T>, T>> Get(Expression<Func<T, bool>> specification)
+    public async Task<Result<EntityNotFound<T>, T>> SingleAsync(Expression<Func<T, bool>> specification)
     {
         var entity = await dbContext.Set<T>().SingleOrDefaultAsync(specification);
 
@@ -36,6 +34,14 @@ public class Repository<T> : IRepository<T>
         return entity;
     }
 
-    public async Task<bool> Exists(Expression<Func<T, bool>> specification)
+    public async Task<bool> ExistsAsync(Expression<Func<T, bool>> specification)
         => await dbContext.Set<T>().AnyAsync(specification);
+
+    public async Task<IReadOnlyCollection<T>> GetPage<TOrderProperty>(
+        Expression<Func<T, TOrderProperty>> orderPropertySelector, int offset, int limit) =>
+        await dbContext.Set<T>()
+            .OrderBy(orderPropertySelector)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
 }

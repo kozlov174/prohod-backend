@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Prohod.Domain;
 using Prohod.Domain.Users;
 
 namespace Prohod.Infrastructure.Users;
@@ -11,7 +10,7 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
     {
         builder
             .Property(user => user.Id)
-            .HasConversion(id => id.Value, guid => new(guid));
+            .HasConversion(id => id.Value, guid => new UserId(guid));
         
         builder
             .OwnsOne<Name>(user => user.Name)
@@ -34,8 +33,8 @@ public class UserEntityConfiguration : IEntityTypeConfiguration<User>
             .HasColumnName(nameof(User.PasswordHash));
         
         builder
-            .OwnsOne<Email>(user => user.Email)
+            .OwnsOne<UserEmail>(user => user.UserEmail)
             .Property(email => email.Value)
-            .HasColumnName(nameof(User.Email));
+            .HasColumnName(nameof(User.UserEmail));
     }
 }

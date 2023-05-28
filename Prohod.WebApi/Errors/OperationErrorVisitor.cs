@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.RepositoriesBase;
 using Prohod.Domain.Users.Errors;

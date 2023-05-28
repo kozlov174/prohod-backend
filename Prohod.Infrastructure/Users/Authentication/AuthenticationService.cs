@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Kontur.Results;
+﻿using Kontur.Results;
 using Prohod.Domain.RepositoriesBase;
 using Prohod.Domain.Users;
 using Prohod.Infrastructure.Users.Authentication.JwtTokens;
@@ -26,7 +25,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task<Result<EntityNotFound<User>, AuthenticatedUser>> AuthenticateAsync(string login, string password)
     {
         var passwordHash = passwordsHashCalculator.CalculatePasswordHash(password); 
-        var getUserResult = await usersRepository.Get(
+        var getUserResult = await usersRepository.SingleAsync(
             userInDb => userInDb.Login.Value == login && userInDb.PasswordHash.Value == passwordHash);
 
         if (!getUserResult.TryGetValue(out var user, out var fault))

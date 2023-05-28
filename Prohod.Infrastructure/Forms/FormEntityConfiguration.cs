@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Prohod.Domain.Forms;
 using Prohod.Domain.Users;
+using Prohod.Domain.VisitRequests.Forms;
 
 namespace Prohod.Infrastructure.Forms;
 
@@ -49,5 +49,10 @@ public class FormEntityConfiguration : IEntityTypeConfiguration<Form>
             .OwnsOne(form => form.EmailToSendReply)
             .Property(email => email.Value)
             .HasColumnName(nameof(Form.EmailToSendReply));
+
+        builder
+            .OwnsOne(form => form.VisitReason)
+            .Property(reason => reason.Value)
+            .HasColumnName(nameof(Form.VisitReason));
     }
 }

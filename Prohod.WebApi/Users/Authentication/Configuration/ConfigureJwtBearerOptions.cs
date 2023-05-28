@@ -25,7 +25,8 @@ internal class ConfigureJwtBearerOptions : IConfigureOptions<JwtBearerOptions>
             ValidAudience = authenticationOptions.Value.Audience,
             ValidateLifetime = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(authenticationOptions.Value.SigningKey))
+                Encoding.UTF8.GetBytes(authenticationOptions.Value.SigningKey)),
+            ValidateIssuerSigningKey = true,
         };
     }
 }

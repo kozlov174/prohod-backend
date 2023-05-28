@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Kontur.Results;
+﻿using Kontur.Results;
 using Prohod.Domain.RepositoriesBase;
 using Prohod.Domain.Users;
 

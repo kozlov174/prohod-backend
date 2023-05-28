@@ -1,5 +1,3 @@
-﻿using System;
-
-namespace Prohod.Domain.Users;
+﻿namespace Prohod.Domain.Users;
 
 public record UserId(Guid Value);
