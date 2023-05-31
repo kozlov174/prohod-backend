@@ -1,6 +1,5 @@
 ﻿using Kontur.Results;
 using Prohod.Domain.AggregationRoot;
-using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.Forms;
 using Prohod.Domain.Users;
 

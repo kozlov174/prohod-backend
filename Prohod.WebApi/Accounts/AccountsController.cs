@@ -3,8 +3,6 @@ using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.Users;
 using Prohod.Infrastructure.Accounts;
 using Prohod.Infrastructure.Accounts.Errors;
-using Prohod.Infrastructure.Accounts.Models;
-using Prohod.Infrastructure.Accounts.Models.CreateAccount;
 using Prohod.WebApi.Accounts.Models.CreateAccount;
 using Prohod.WebApi.Accounts.Models.Login;
 using Prohod.WebApi.Authorization;

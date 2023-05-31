@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Prohod.Domain.Forms;
-using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;
 
 namespace Prohod.Infrastructure.VisitRequests;

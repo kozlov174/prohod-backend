@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;

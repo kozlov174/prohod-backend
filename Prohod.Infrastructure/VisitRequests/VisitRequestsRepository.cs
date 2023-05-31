@@ -1,8 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Kontur.Results;
 using Microsoft.EntityFrameworkCore;
-using Prohod.Domain.GenericRepository;
-using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;
 using Prohod.Infrastructure.Database;
 

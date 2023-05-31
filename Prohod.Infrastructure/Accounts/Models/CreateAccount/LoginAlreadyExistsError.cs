@@ -1,5 +1,4 @@
-﻿using Prohod.Domain.ErrorsBase;
-using Prohod.Infrastructure.Accounts.Errors;
+﻿using Prohod.Infrastructure.Accounts.Errors;
 
 namespace Prohod.Infrastructure.Accounts.Models.CreateAccount;
 
