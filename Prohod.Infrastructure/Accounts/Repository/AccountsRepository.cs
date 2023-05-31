@@ -18,12 +18,17 @@ public class AccountsRepository : RepositoryBase<Account>, IAccountsRepository
 
     public async Task<Result<EntityNotFoundError<Account>, User>> GetUserByLoginAndPassword(string login, string passwordsHash)
     {
-        var user = await dbContext.Set<Account>()
+        var account = await dbContext.Set<Account>()
             .Where(account => account.Login == login && account.PasswordHash == passwordsHash)
             .Select(account => account.AssociatedUser)
             .SingleOrDefaultAsync();
 
-        return user is null ?
-            new EntityNotFoundError<Account>("Account with provided login and password was not found") : user;
+        return account is null ?
+            new EntityNotFoundError<Account>("Account with provided login and password was not found") : account;
+    }
+
+    public async Task<bool> IsLoginExists(string login)
+    {
+        return await dbContext.Set<Account>().AnyAsync(account => account.Login == login);
     }
 }

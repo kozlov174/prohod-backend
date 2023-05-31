@@ -1,8 +1,10 @@
-﻿using Kontur.Results;
+﻿using System.Security.Cryptography;
+using Kontur.Results;
 using Prohod.Domain.GenericRepository;
 using Prohod.Domain.Users;
 using Prohod.Infrastructure.Accounts.JwtTokens;
 using Prohod.Infrastructure.Accounts.Models;
+using Prohod.Infrastructure.Accounts.Models.CreateAccount;
 using Prohod.Infrastructure.Accounts.Passwords;
 using Prohod.Infrastructure.Accounts.Repository;
 
@@ -37,5 +39,32 @@ public class AccountsService : IAccountsService
         var jwtToken = jwtTokensGenerator.GenerateJwtToken(user);
         
         return new AuthenticatedUser(user, jwtToken);
+    }
+
+    public async Task<Result<LoginAlreadyExistsError, AccountCredentials>> CreateUserAccountAsync(
+        CreateAccountDto requestAccountInfo, Role userRole)
+    {
+        var ((name, surname, email), login) = requestAccountInfo;
+        var isLoginExists = await accountsRepository.IsLoginExists(login);
+        if (isLoginExists)
+        {
+            return new LoginAlreadyExistsError(login);
+        }
+
+        var password = GeneratePassword();
+        var passwordHash = passwordsHashCalculator.CalculatePasswordHash(password);
+        var account = new Account(new(name, surname, email, userRole), login, passwordHash);
+        await accountsRepository.AddAsync(account);
+        return new AccountCredentials(login, password);
+    }
+
+    private static string GeneratePassword()
+    {
+        const string availableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%&";
+
+        return string.Join("",
+            Enumerable
+                .Range(0, 12)
+                .Select(_ => availableChars[RandomNumberGenerator.GetInt32(availableChars.Length)]));
     }
 }

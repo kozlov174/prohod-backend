@@ -31,7 +31,7 @@ public class VisitRequestsController : ControllerBase
 
     [HttpPost("apply")]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public async Task<ActionResult> ApplyForm(ApplyFormRequest request)
+    public async Task<ActionResult> ApplyForm([FromBody] ApplyFormRequest request)
     {
         var applyResult = await visitRequestsService.ApplyFormAsync(request.Form);
 
@@ -56,7 +56,7 @@ public class VisitRequestsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<GetVisitRequestsPageResponse>> GetUserProcessedVisitRequestsPage(
-        Guid userId, int offset = 0, int limit = 10)
+        [FromRoute] Guid userId, int offset = 0, int limit = 10)
     {
         var userProcessedVisitRequestsResult =
             await visitRequestsService.GetUserProcessedVisitRequestsPage(userId, offset, limit);
@@ -80,7 +80,7 @@ public class VisitRequestsController : ControllerBase
     [HttpPost("{visitRequestId:guid}/accept")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> AcceptVisitRequest(Guid visitRequestId, AcceptVisitRequestRequest request)
+    public async Task<ActionResult> AcceptVisitRequest([FromRoute] Guid visitRequestId, [FromBody] AcceptVisitRequestRequest request)
     {
         var acceptResult = 
             await visitRequestsService.AcceptRequestAsync(visitRequestId, request.WhoAcceptedId);
@@ -93,13 +93,13 @@ public class VisitRequestsController : ControllerBase
     [AuthorizedRoles(Role.Security)]
     [HttpPost("{visitRequestId:guid}/reject")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult> RejectVisitRequest(Guid visitRequestId, RejectVisitRequestRequest request)
+    public async Task<ActionResult> RejectVisitRequest([FromRoute] Guid visitRequestId, [FromBody] RejectVisitRequestRequest request)
     {
-        var acceptResult = 
+        var rejectResult = 
             await visitRequestsService.RejectRequestAsync(
                 visitRequestId, request.WhoRejectedId, request.RejectionReason);
 
-        return acceptResult.TryGetFault(out var fault) 
+        return rejectResult.TryGetFault(out var fault) 
             ? fault.Accept(errorVisitor)
             : NoContent();
     }
