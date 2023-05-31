@@ -17,4 +17,9 @@ public class UsersRepository : RepositoryBase<User>, IUsersRepository
     {
         return await dbContext.Set<User>().AnyAsync(user => user.Id == userId);
     }
+
+    public async Task<IReadOnlyList<User>> GetAvailableToVisitUsersAsync()
+    {
+        return await dbContext.Set<User>().Where(user => user.Role == Role.User).ToListAsync();
+    }
 }

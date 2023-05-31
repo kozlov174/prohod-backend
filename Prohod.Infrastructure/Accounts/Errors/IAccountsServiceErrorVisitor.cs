@@ -4,5 +4,5 @@ namespace Prohod.Infrastructure.Accounts.Errors;
 
 public interface IAccountsServiceErrorVisitor<out T>
 {
-    public T Visit(LoginAlreadyExistsError error);
+    T Visit(LoginAlreadyExistsError error);
 }

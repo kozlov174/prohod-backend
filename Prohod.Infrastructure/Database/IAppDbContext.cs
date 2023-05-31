@@ -8,5 +8,5 @@ public interface IAppDbContext
     DbSet<T> Set<T>()
         where T : class, IAggregationRoot;
 
-    public Task<int> SaveChangesAsync();
+    Task<int> SaveChangesAsync();
 }

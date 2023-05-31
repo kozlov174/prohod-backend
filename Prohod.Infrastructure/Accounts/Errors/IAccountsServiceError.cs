@@ -2,5 +2,5 @@
 
 public interface IAccountsServiceError
 {
-    public T Accept<T>(IAccountsServiceErrorVisitor<T> visitor);
+    T Accept<T>(IAccountsServiceErrorVisitor<T> visitor);
 }

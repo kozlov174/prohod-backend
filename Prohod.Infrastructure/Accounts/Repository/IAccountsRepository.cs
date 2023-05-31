@@ -7,8 +7,7 @@ namespace Prohod.Infrastructure.Accounts.Repository;
 
 public interface IAccountsRepository : IRepository<Account>
 {
-    public Task<Result<EntityNotFoundError<Account>, User>> GetUserByLoginAndPassword(
-        string login, string passwordsHash);
+    Task<Result<EntityNotFoundError<Account>, User>> GetUserByLoginAndPassword(string login, string passwordsHash);
 
-    public Task<bool> IsLoginExists(string login);
+    Task<bool> IsLoginExists(string login);
 }

@@ -5,9 +5,9 @@ namespace Prohod.Domain.GenericRepository;
 
 public interface IRepository<T> where T : IAggregationRoot
 {
-    public Task AddAsync(T entity);
+    Task AddAsync(T entity);
 
-    public Task<Result<EntityNotFoundError<T>, T>> FindAsync(Guid id);
+    Task<Result<EntityNotFoundError<T>, T>> FindAsync(Guid id);
 
-    public Task UpdateAsync(T entity);
+    Task UpdateAsync(T entity);
 }

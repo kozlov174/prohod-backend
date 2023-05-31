@@ -4,5 +4,5 @@ namespace Prohod.Infrastructure.Accounts.JwtTokens;
 
 public interface IJwtTokensGenerator
 {
-    public JwtToken GenerateJwtToken(User user);
+    JwtToken GenerateJwtToken(User user);
 }
