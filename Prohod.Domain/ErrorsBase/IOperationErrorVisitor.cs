@@ -1,11 +1,13 @@
-﻿using Prohod.Domain.GenericRepository;
-using Prohod.Domain.Users.Errors;
+﻿using Prohod.Domain.AggregationRoot;
+using Prohod.Domain.GenericRepository;
+using Prohod.Domain.VisitRequests;
 
 namespace Prohod.Domain.ErrorsBase;
 
 public interface IOperationErrorVisitor<out T>
 {
-    T Visit<TEntity>(EntityNotFound<TEntity> error);
+    T Visit<TEntity>(EntityNotFoundError<TEntity> error) 
+        where TEntity : IAggregationRoot;
 
-    T Visit(UserToVisitWasNotFound error);
+    T Visit(ProcessVisitRequestError error);
 }

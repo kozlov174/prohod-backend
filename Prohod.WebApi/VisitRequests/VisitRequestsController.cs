@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;
-using Prohod.Domain.VisitRequests.Forms;
-using Prohod.WebApi.Users.Authorization;
+using Prohod.WebApi.Authorization;
+using Prohod.WebApi.VisitRequests.Models.AcceptVisitRequest;
 using Prohod.WebApi.VisitRequests.Models.ApplyForm;
-using Prohod.WebApi.VisitRequests.Models.GetAllVisitRequestsPage;
-using Prohod.WebApi.VisitRequests.Models.GetNotProcessedVisitRequestsPage;
-using Prohod.WebApi.VisitRequests.Models.GetUserProcessedVisitRequestsPage;
+using Prohod.WebApi.VisitRequests.Models.GetVisitRequestsPage;
+using Prohod.WebApi.VisitRequests.Models.RejectVisitRequest;
 
 namespace Prohod.WebApi.VisitRequests;
 
@@ -20,29 +19,21 @@ namespace Prohod.WebApi.VisitRequests;
 public class VisitRequestsController : ControllerBase
 {
     private readonly IVisitRequestsService visitRequestsService;
-    private readonly IVisitRequestsRepository visitRequestsRepository;
     private readonly IOperationErrorVisitor<ActionResult> errorVisitor;
-    private readonly IMapper mapper;
 
     public VisitRequestsController(
         IVisitRequestsService visitRequestsService,
-        IVisitRequestsRepository visitRequestsRepository,
-        IOperationErrorVisitor<ActionResult> errorVisitor,
-        IMapper mapper)
+        IOperationErrorVisitor<ActionResult> errorVisitor)
     {
         this.visitRequestsService = visitRequestsService;
-        this.visitRequestsRepository = visitRequestsRepository;
         this.errorVisitor = errorVisitor;
-        this.mapper = mapper;
     }
 
     [HttpPost("apply")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult> ApplyForm(ApplyFormRequest request)
     {
-        var form = mapper.Map<Form>(request.Form);
-
-        var applyResult = await visitRequestsService.ApplyFormAsync(form);
+        var applyResult = await visitRequestsService.ApplyFormAsync(request.Form);
 
         return applyResult.TryGetFault(out var fault)
             ? fault.Accept(errorVisitor)
@@ -52,41 +43,64 @@ public class VisitRequestsController : ControllerBase
     [AuthorizedRoles(Role.Security)]
     [HttpGet("statuses/not-processed")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetNotProcessedVisitRequestsPageResponse>> GetNotProcessedVisitRequestsPage(
-        [FromQuery] int offset = 0, [FromQuery] int limit = 10)
+    public async Task<ActionResult<GetVisitRequestsPageResponse>> GetNotProcessedVisitRequestsPage(
+        int offset = 0, int limit = 10)
     {
-        var visitRequests = await visitRequestsRepository.GetVisitRequestsPage(
-            request => request.Status == VisitRequestStatus.NotProcessed, offset, limit);
+        var notProcessedVisitRequests = await visitRequestsService.GetNotProcessedVisitRequestsPage(offset, limit);
 
-        return new GetNotProcessedVisitRequestsPageResponse(
-            mapper.Map<NotProcessedVisitRequestAggregatedDto[]>(visitRequests));
+        return Ok(new GetVisitRequestsPageResponse(notProcessedVisitRequests));
     }
     
     [AuthorizedRoles(Role.Security)]
-    [HttpGet("statuses/user-processed")]
+    [HttpGet("who-processed/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetUserProcessedVisitRequestsPageResponse>> GetUserProcessedVisitRequestsPage(
-        [FromQuery] Guid userId, [FromQuery] int offset = 0, [FromQuery] int limit = 10)
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<GetVisitRequestsPageResponse>> GetUserProcessedVisitRequestsPage(
+        Guid userId, int offset = 0, int limit = 10)
     {
-        var visitRequests = await visitRequestsRepository.GetVisitRequestsPage(
-            request => request.WhoProcessedId == new UserId(userId), offset, limit);
+        var userProcessedVisitRequestsResult =
+            await visitRequestsService.GetUserProcessedVisitRequestsPage(userId, offset, limit);
 
-        return new GetUserProcessedVisitRequestsPageResponse(
-            mapper.Map<UserProcessedVisitRequestAggregatedDto[]>(visitRequests));
+        return userProcessedVisitRequestsResult.TryGetValue(out var visitRequests, out var fault)
+            ? Ok(new GetVisitRequestsPageResponse(visitRequests))
+            : fault.Accept(errorVisitor);
     }
 
     [AuthorizedRoles(Role.Admin)]
-    [HttpGet("statuses/all")]
+    [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetAllVisitRequestsPageResponse>> GetAllVisitRequestsAggregationsPage(
-        [FromQuery] int offset = 0, [FromQuery] int limit = 10)
+    public async Task<ActionResult<GetVisitRequestsPageResponse>> GetVisitRequestsPage(int offset = 0, int limit = 10)
     {
-        var possibleStatuses =
-            new[] { VisitRequestStatus.NotProcessed, VisitRequestStatus.Accept, VisitRequestStatus.Reject };
-        var visitRequests = await visitRequestsRepository.GetVisitRequestsPage(
-            request => possibleStatuses.Contains(request.Status), offset, limit);
+        var allVisitRequests = await visitRequestsService.GetVisitRequestsPage(offset, limit);
 
-        return new GetAllVisitRequestsPageResponse(
-            mapper.Map<VisitRequestAggregatedDto[]>(visitRequests));
+        return Ok(new GetVisitRequestsPageResponse(allVisitRequests));
+    }
+    
+    [AuthorizedRoles(Role.Security)]
+    [HttpPost("{visitRequestId:guid}/accept")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> AcceptVisitRequest(Guid visitRequestId, AcceptVisitRequestRequest request)
+    {
+        var acceptResult = 
+            await visitRequestsService.AcceptRequestAsync(visitRequestId, request.WhoAcceptedId);
+
+        return acceptResult.TryGetFault(out var fault) 
+            ? fault.Accept(errorVisitor)
+            : NoContent();
+    }
+    
+    [AuthorizedRoles(Role.Security)]
+    [HttpPost("{visitRequestId:guid}/reject")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult> RejectVisitRequest(Guid visitRequestId, RejectVisitRequestRequest request)
+    {
+        var acceptResult = 
+            await visitRequestsService.RejectRequestAsync(
+                visitRequestId, request.WhoRejectedId, request.RejectionReason);
+
+        return acceptResult.TryGetFault(out var fault) 
+            ? fault.Accept(errorVisitor)
+            : NoContent();
     }
 }

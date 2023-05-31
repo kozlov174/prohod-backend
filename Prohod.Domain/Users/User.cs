@@ -1,18 +1,25 @@
-﻿namespace Prohod.Domain.Users;
+﻿using Prohod.Domain.AggregationRoot;
 
-public record User
+namespace Prohod.Domain.Users;
+
+public class User : IAggregationRoot
 {
-    public UserId Id { get; init; } = new(Guid.NewGuid());
+    public Guid Id { get; private set; }
     
-    public required Name Name { get; init; }
+    public string Name { get; private set; }
     
-    public required Surname Surname { get; init; }
+    public string Surname { get; private set; }
     
-    public required Login Login { get; init; }
+    public string UserEmail { get; private set; }
     
-    public required PasswordHash PasswordHash { get; init; }
+    public Role Role { get; private set; }
     
-    public required UserEmail UserEmail { get; init; }
-    
-    public required Role Role { get; init; }
+    public User(string name, string surname, string userEmail, Role role)
+    {
+        Id = Guid.NewGuid();
+        Name = name;
+        Surname = surname;
+        UserEmail = userEmail;
+        Role = role;
+    }
 }

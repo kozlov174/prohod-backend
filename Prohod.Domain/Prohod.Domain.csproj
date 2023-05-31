@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="Kontur.Results" Version="1.0.1" />
+      <PackageReference Include="Kontur.Results.Monad" Version="1.0.1" />
     </ItemGroup>
 
 </Project>

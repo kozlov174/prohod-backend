@@ -1,3 +1,0 @@
-﻿namespace Prohod.WebApi.VisitRequests.Models.GetAllVisitRequestsPage;
-
-public record GetAllVisitRequestsPageResponse(IEnumerable<VisitRequestAggregatedDto> VisitRequests);

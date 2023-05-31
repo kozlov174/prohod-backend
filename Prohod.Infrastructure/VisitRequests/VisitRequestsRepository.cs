@@ -1,35 +1,49 @@
 ﻿using System.Linq.Expressions;
+using Kontur.Results;
 using Microsoft.EntityFrameworkCore;
+using Prohod.Domain.GenericRepository;
 using Prohod.Domain.Users;
 using Prohod.Domain.VisitRequests;
-using Prohod.Domain.VisitRequests.Forms;
 using Prohod.Infrastructure.Database;
 
 namespace Prohod.Infrastructure.VisitRequests;
 
-public class VisitRequestsRepository : IVisitRequestsRepository
+public class VisitRequestsRepository : RepositoryBase<VisitRequest>, IVisitRequestsRepository
 {
     private readonly IAppDbContext dbContext;
 
-    public VisitRequestsRepository(IAppDbContext dbContext)
+    public VisitRequestsRepository(IAppDbContext dbContext) : base(dbContext)
     {
         this.dbContext = dbContext;
     }
-    
-    public async Task<IReadOnlyCollection<VisitRequestAggregated>> GetVisitRequestsPage(
-        Expression<Func<VisitRequest, bool>> predicate, int offset, int limit)
+
+    public Task<IReadOnlyList<VisitRequest>> GetNotProcessedVisitRequestsPageAsync(int offset, int limit)
     {
-        var forms = dbContext.Set<Form>();
+        return GetVisitRequestsPageAsync(request => request.Status == VisitRequestStatus.NotProcessed, offset, limit);
+    }
+
+    public Task<IReadOnlyList<VisitRequest>> GetVisitRequestsPageAsync(int offset, int limit)
+    {
+        return GetVisitRequestsPageAsync(request => true, offset, limit);
+    }
+
+    public Task<IReadOnlyList<VisitRequest>> GetUserProcessedVisitRequestsPageAsync(
+        Guid userId, int offset, int limit)
+    {
+        return GetVisitRequestsPageAsync(
+            request => request.WhoProcessed != null && request.WhoProcessed.Id == userId, offset, limit);
+    }
+    
+    private async Task<IReadOnlyList<VisitRequest>> GetVisitRequestsPageAsync(
+        Expression<Func<VisitRequest, bool>> filter, int offset, int limit)
+    {
         var requests = dbContext.Set<VisitRequest>();
-        var users = dbContext.Set<User>();
-        var query =
-            from request in requests.Where(predicate)
-            join form in forms on request.FormId equals form.Id
-            join userToVisit in users on form.UserToVisitId equals userToVisit.Id
-            join whoProcessed in users on request.WhoProcessedId equals whoProcessed.Id into grouping
-            from whoProcessed in grouping.DefaultIfEmpty()
-            orderby form.VisitTime
-            select new VisitRequestAggregated(request, new(form, userToVisit), whoProcessed);
-        return await query.ToListAsync();
+        
+        return await requests
+            .Where(filter)
+            .Skip(offset)
+            .Take(limit)
+            .OrderBy(request => request.Form.VisitTime)
+            .ToListAsync();
     }
 }

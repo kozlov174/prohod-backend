@@ -1,20 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Prohod.Domain.AggregationRoot;
 using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.GenericRepository;
-using Prohod.Domain.Users.Errors;
+using Prohod.Domain.VisitRequests;
 
 namespace Prohod.WebApi.Errors;
 
 public class OperationErrorVisitor : IOperationErrorVisitor<ActionResult>
 {
-    public ActionResult Visit<T>(EntityNotFound<T> error)
+    public ActionResult Visit<T>(EntityNotFoundError<T> error)
+        where T : IAggregationRoot
     {
-        return ToError(StatusCodes.Status404NotFound, $"{typeof(T).Name} entity was not found");
+        return ToError(StatusCodes.Status404NotFound, error.Message);
     }
 
-    public ActionResult Visit(UserToVisitWasNotFound error)
+    public ActionResult Visit(ProcessVisitRequestError error)
     {
-        return ToError(StatusCodes.Status404NotFound, $"User to visit with id = {error.UserToVisitId} was not found");
+        return ToError(StatusCodes.Status400BadRequest, error.Message);
     }
 
     private static ActionResult ToError(int statusCode, string description)

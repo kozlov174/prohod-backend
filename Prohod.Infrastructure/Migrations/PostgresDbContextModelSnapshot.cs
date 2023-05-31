@@ -20,22 +20,43 @@ namespace Prohod.Infrastructure.Migrations
                 .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "visit_request_status", new[] { "not_processed", "reject", "accept" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Prohod.Domain.Forms.Form", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("EmailToSendReply")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserToVisitId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("VisitReason")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("VisitTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserToVisitId");
+
+                    b.ToTable("Forms");
+                });
 
             modelBuilder.Entity("Prohod.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -52,41 +73,13 @@ namespace Prohod.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Login")
-                        .IsUnique();
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Prohod.Domain.VisitRequests.Forms.Form", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("EmailToSendReply")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserToVisitId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("VisitReason")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("VisitTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserToVisitId");
-
-                    b.ToTable("Forms");
                 });
 
             modelBuilder.Entity("Prohod.Domain.VisitRequests.VisitRequest", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("FormId")
@@ -111,15 +104,43 @@ namespace Prohod.Infrastructure.Migrations
                     b.ToTable("VisitRequests");
                 });
 
-            modelBuilder.Entity("Prohod.Domain.VisitRequests.Forms.Form", b =>
+            modelBuilder.Entity("Prohod.Infrastructure.Accounts.Models.Account", b =>
                 {
-                    b.HasOne("Prohod.Domain.Users.User", null)
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AssociatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Login")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssociatedUserId")
+                        .IsUnique();
+
+                    b.HasIndex("Login")
+                        .IsUnique();
+
+                    b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("Prohod.Domain.Forms.Form", b =>
+                {
+                    b.HasOne("Prohod.Domain.Users.User", "UserToVisit")
                         .WithMany()
                         .HasForeignKey("UserToVisitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Prohod.Domain.VisitRequests.Forms.Passport", "Passport", b1 =>
+                    b.OwnsOne("Prohod.Domain.Forms.Passport", "Passport", b1 =>
                         {
                             b1.Property<Guid>("FormId")
                                 .HasColumnType("uuid");
@@ -128,7 +149,7 @@ namespace Prohod.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.Property<DateTimeOffset>("IssueDate")
+                            b1.Property<DateTime>("IssueDate")
                                 .HasColumnType("timestamp with time zone");
 
                             b1.Property<string>("Number")
@@ -153,19 +174,36 @@ namespace Prohod.Infrastructure.Migrations
 
                     b.Navigation("Passport")
                         .IsRequired();
+
+                    b.Navigation("UserToVisit");
                 });
 
             modelBuilder.Entity("Prohod.Domain.VisitRequests.VisitRequest", b =>
                 {
-                    b.HasOne("Prohod.Domain.VisitRequests.Forms.Form", null)
-                        .WithOne()
-                        .HasForeignKey("Prohod.Domain.VisitRequests.VisitRequest", "FormId")
+                    b.HasOne("Prohod.Domain.Forms.Form", "Form")
+                        .WithMany()
+                        .HasForeignKey("FormId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Prohod.Domain.Users.User", null)
+                    b.HasOne("Prohod.Domain.Users.User", "WhoProcessed")
                         .WithMany()
                         .HasForeignKey("WhoProcessedId");
+
+                    b.Navigation("Form");
+
+                    b.Navigation("WhoProcessed");
+                });
+
+            modelBuilder.Entity("Prohod.Infrastructure.Accounts.Models.Account", b =>
+                {
+                    b.HasOne("Prohod.Domain.Users.User", "AssociatedUser")
+                        .WithMany()
+                        .HasForeignKey("AssociatedUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssociatedUser");
                 });
 #pragma warning restore 612, 618
         }

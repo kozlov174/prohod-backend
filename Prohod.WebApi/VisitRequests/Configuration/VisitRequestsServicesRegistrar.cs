@@ -10,5 +10,5 @@ public static class VisitRequestsServicesRegistrar
         return serviceCollection
             .AddScoped<IVisitRequestsRepository, VisitRequestsRepository>()
             .AddScoped<IVisitRequestsService, VisitRequestsService>();
-    }
+    } 
 }

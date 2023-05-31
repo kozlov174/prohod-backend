@@ -1,38 +1,99 @@
 ﻿using Kontur.Results;
+using Prohod.Domain.ErrorsBase;
+using Prohod.Domain.Forms;
 using Prohod.Domain.GenericRepository;
 using Prohod.Domain.Users;
-using Prohod.Domain.Users.Errors;
-using Prohod.Domain.VisitRequests.Forms;
 
 namespace Prohod.Domain.VisitRequests;
 
-
 public class VisitRequestsService : IVisitRequestsService
 {
-    private readonly IRepository<VisitRequest> visitRequestsRepository;
-    private readonly IRepository<Form> formsRepository;
-    private readonly IRepository<User> usersRepository;
+    private readonly IVisitRequestsRepository visitRequestsRepository;
+    private readonly IFormsRepository formsRepository;
+    private readonly IUsersRepository usersRepository;
 
     public VisitRequestsService(
-        IRepository<VisitRequest> visitRequestsRepository,
-        IRepository<Form> formsRepository,
-        IRepository<User> usersRepository)
+        IVisitRequestsRepository visitRequestsRepository,
+        IFormsRepository formsRepository,
+        IUsersRepository usersRepository)
     {
         this.visitRequestsRepository = visitRequestsRepository;
         this.formsRepository = formsRepository;
         this.usersRepository = usersRepository;
     }
 
-    public async Task<Result<IApplyFormError>> ApplyFormAsync(Form form)
+    public async Task<Result<EntityNotFoundError<User>>> ApplyFormAsync(ApplyFormDto applyFormDto)
     {
-        var userExists = await usersRepository.ExistsAsync(user => user.Id == form.UserToVisitId);
-        if (!userExists)
+        var (passport, visitTime, visitReason, userToVisitId, emailToSendReply) = applyFormDto;
+        var findUserResult = await usersRepository.FindAsync(userToVisitId);
+        if (findUserResult.TryGetFault(out var fault, out var user))
         {
-            return new UserToVisitWasNotFound(form.UserToVisitId);
+            return fault;
+        }
+
+        var form = new Form(passport, visitTime, visitReason, user, emailToSendReply);
+        await formsRepository.AddAsync(form);
+        await visitRequestsRepository.AddAsync(new VisitRequest(form));
+        return Result.Succeed();
+    }
+
+    public async Task<Result<IOperationError>> AcceptRequestAsync(Guid visitRequestId, Guid whoAcceptedId)
+    {
+        var findVisitRequestResult = await visitRequestsRepository.FindAsync(visitRequestId);
+        if (findVisitRequestResult.TryGetFault(out var visitRequestNotFound, out var visitRequest))
+        {
+            return visitRequestNotFound;
+        }
+
+        var findUserResult = await usersRepository.FindAsync(whoAcceptedId);
+        if (findUserResult.TryGetFault(out var userNotFound, out var user))
+        {
+            return userNotFound;
         }
         
-        await formsRepository.AddAsync(form);
-        await visitRequestsRepository.AddAsync(new VisitRequest { FormId = form.Id });
-        return Result.Succeed();
+        return visitRequest.AcceptRequest(user).TryGetFault(out var acceptVisitRequestError) 
+            ? acceptVisitRequestError 
+            : Result.Succeed();
+    }
+    
+    public async Task<Result<IOperationError>> RejectRequestAsync(
+        Guid visitRequestId, Guid whoProcessedId, string rejectionReason)
+    {
+        var findVisitRequestResult = await visitRequestsRepository.FindAsync(visitRequestId);
+        if (findVisitRequestResult.TryGetFault(out var visitRequestNotFound, out var visitRequest))
+        {
+            return visitRequestNotFound;
+        }
+        
+        var findUserResult = await usersRepository.FindAsync(whoProcessedId);
+        if (findUserResult.TryGetFault(out var userNotFound, out var user))
+        {
+            return userNotFound;
+        }
+
+        return visitRequest.RejectRequest(user, rejectionReason).TryGetFault(out var rejectVisitRequestError)
+            ? rejectVisitRequestError
+            : Result.Succeed();
+    }
+
+    public async Task<IReadOnlyList<VisitRequest>> GetNotProcessedVisitRequestsPage(int offset, int limit)
+    {
+        return await visitRequestsRepository.GetNotProcessedVisitRequestsPageAsync(offset, limit);
+    }
+
+    public async Task<IReadOnlyList<VisitRequest>> GetVisitRequestsPage(int offset, int limit)
+    {
+        return await visitRequestsRepository.GetVisitRequestsPageAsync(offset, limit);
+    }
+
+    public async Task<Result<EntityNotFoundError<User>, IReadOnlyList<VisitRequest>>> GetUserProcessedVisitRequestsPage(
+        Guid userId, int offset, int limit)
+    {
+        var userExists = await usersRepository.ExistsAsync(userId);
+
+        return userExists
+            ? Result.Succeed(
+                await visitRequestsRepository.GetUserProcessedVisitRequestsPageAsync(userId, offset, limit))
+            : EntityNotFoundError<User>.FromId(userId);
     }
 }

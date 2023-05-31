@@ -1,3 +1,0 @@
-﻿namespace Prohod.WebApi.VisitRequests.Models.GetUserProcessedVisitRequestsPage;
-
-public record GetUserProcessedVisitRequestsPageResponse(IEnumerable<UserProcessedVisitRequestAggregatedDto> VisitRequests);
