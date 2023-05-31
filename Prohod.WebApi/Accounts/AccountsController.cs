@@ -55,7 +55,7 @@ public class AccountsController : ControllerBase
     }
     
     [AuthorizedRoles(Role.Security)]
-    [HttpPost("user/create")]
+    [HttpPost("users/create")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<CreateAccountResponse>> CreateUserAccount(
