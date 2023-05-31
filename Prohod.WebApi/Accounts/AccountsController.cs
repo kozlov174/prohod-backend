@@ -2,6 +2,7 @@
 using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.Users;
 using Prohod.Infrastructure.Accounts;
+using Prohod.Infrastructure.Accounts.Errors;
 using Prohod.Infrastructure.Accounts.Models;
 using Prohod.Infrastructure.Accounts.Models.CreateAccount;
 using Prohod.WebApi.Accounts.Models.CreateAccount;
@@ -44,10 +45,25 @@ public class AccountsController : ControllerBase
     [AuthorizedRoles(Role.Admin)]
     [HttpPost("security/create")]
     [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<CreateAccountResponse>> CreateSecurityUserAccount(
         [FromBody] CreateAccountRequest request)
     {
         var createAccountResult = await accountsService.CreateUserAccountAsync(request.AccountInfo, Role.Security);
+
+        return createAccountResult.TryGetFault(out var fault, out var credentials)
+            ? fault.Accept(accountsServiceErrorVisitor)
+            : new CreateAccountResponse(credentials);
+    }
+    
+    [AuthorizedRoles(Role.Security)]
+    [HttpPost("user/create")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<ActionResult<CreateAccountResponse>> CreateUserAccount(
+        [FromBody] CreateAccountRequest request)
+    {
+        var createAccountResult = await accountsService.CreateUserAccountAsync(request.AccountInfo, Role.User);
 
         return createAccountResult.TryGetFault(out var fault, out var credentials)
             ? fault.Accept(accountsServiceErrorVisitor)

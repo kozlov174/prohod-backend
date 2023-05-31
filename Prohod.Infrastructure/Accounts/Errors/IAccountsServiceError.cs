@@ -1,4 +1,4 @@
-﻿namespace Prohod.Infrastructure.Accounts.Models.CreateAccount;
+﻿namespace Prohod.Infrastructure.Accounts.Errors;
 
 public interface IAccountsServiceError
 {
