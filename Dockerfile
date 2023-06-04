@@ -6,6 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Prohod.WebApi/Prohod.WebApi.csproj", "Prohod.WebApi/"]
+COPY ["Prohod.Infrastructure/Prohod.Infrastructure.csproj", "Prohod.Infrastructure/"]
+COPY ["Prohod.Domain/Prohod.Domain.csproj", "Prohod.Domain/"]
 RUN dotnet restore "Prohod.WebApi/Prohod.WebApi.csproj"
 COPY . .
 WORKDIR "/src/Prohod.WebApi"
