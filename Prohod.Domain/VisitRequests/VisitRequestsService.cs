@@ -2,6 +2,7 @@
 using Prohod.Domain.ErrorsBase;
 using Prohod.Domain.Forms;
 using Prohod.Domain.GenericRepository;
+using Prohod.Domain.QrCodes;
 using Prohod.Domain.Users;
 
 namespace Prohod.Domain.VisitRequests;
@@ -11,15 +12,18 @@ public class VisitRequestsService : IVisitRequestsService
     private readonly IVisitRequestsRepository visitRequestsRepository;
     private readonly IFormsRepository formsRepository;
     private readonly IUsersRepository usersRepository;
+    private readonly IQrCodesService qrCodesService;
 
     public VisitRequestsService(
         IVisitRequestsRepository visitRequestsRepository,
         IFormsRepository formsRepository,
-        IUsersRepository usersRepository)
+        IUsersRepository usersRepository,
+        IQrCodesService qrCodesService)
     {
         this.visitRequestsRepository = visitRequestsRepository;
         this.formsRepository = formsRepository;
         this.usersRepository = usersRepository;
+        this.qrCodesService = qrCodesService;
     }
 
     public async Task<Result<EntityNotFoundError<User>>> ApplyFormAsync(ApplyFormDto applyFormDto)
@@ -51,9 +55,16 @@ public class VisitRequestsService : IVisitRequestsService
             return userNotFound;
         }
         
-        return visitRequest.AcceptRequest(user).TryGetFault(out var acceptVisitRequestError) 
-            ? acceptVisitRequestError 
-            : Result.Succeed();
+        if (visitRequest.AcceptRequest(user).TryGetFault(out var acceptRequestError))
+        {
+            return acceptRequestError;
+        }
+
+        await visitRequestsRepository.UpdateAsync(visitRequest);
+
+        await qrCodesService.CreateAndSendQrCodeAsync(visitRequest.Form);
+        
+        return Result.Succeed();
     }
     
     public async Task<Result<IOperationError>> RejectRequestAsync(
@@ -71,9 +82,14 @@ public class VisitRequestsService : IVisitRequestsService
             return userNotFound;
         }
 
-        return visitRequest.RejectRequest(user, rejectionReason).TryGetFault(out var rejectVisitRequestError)
-            ? rejectVisitRequestError
-            : Result.Succeed();
+        if (visitRequest.RejectRequest(user, rejectionReason).TryGetFault(out var rejectRequestError))
+        {
+            return rejectRequestError;
+        }
+
+        await visitRequestsRepository.UpdateAsync(visitRequest);
+
+        return Result.Succeed();
     }
 
     public async Task<IReadOnlyList<VisitRequest>> GetNotProcessedVisitRequestsPage(int offset, int limit)

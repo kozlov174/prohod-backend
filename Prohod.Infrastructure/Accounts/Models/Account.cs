@@ -7,13 +7,15 @@ public class Account : IAggregationRoot
 {
     public Guid Id { get; private set; }
 
-    public User AssociatedUser { get; private set; }
+    public virtual User AssociatedUser { get; private set; }
     
     public string Login { get; private set; }
     
     public string PasswordHash { get; private set; }
 
-    private Account() { }
+#pragma warning disable CS8618
+    protected Account() { }
+#pragma warning restore CS8618
 
     public Account(User associatedUser, string login, string passwordHash)
     {

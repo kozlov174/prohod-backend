@@ -17,7 +17,9 @@ public class Form : IAggregationRoot
     
     public string EmailToSendReply { get; private set; }
     
-    private Form() { }
+#pragma warning disable CS8618
+    protected Form() { }
+#pragma warning restore CS8618
 
     public Form(Passport passport, DateTime visitTime, string visitReason, User userToVisit, string emailToSendReply)
     {

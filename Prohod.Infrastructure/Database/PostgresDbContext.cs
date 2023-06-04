@@ -24,7 +24,7 @@ public sealed class PostgresDbContext : DbContext, IAppDbContext
     public DbSet<Account> Accounts { get; set; } = default!;
 
     public DbSet<VisitRequest> VisitRequests { get; set; } = default!;
-
+    
     public new DbSet<T> Set<T>()
         where T : class, IAggregationRoot 
         => base.Set<T>();
@@ -34,6 +34,7 @@ public sealed class PostgresDbContext : DbContext, IAppDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresEnum<Role>();
         modelBuilder.HasPostgresEnum<VisitRequestStatus>();
         modelBuilder.ApplyConfiguration(new AccountEntityConfiguration());
         modelBuilder.ApplyConfiguration(new FormEntityConfiguration());

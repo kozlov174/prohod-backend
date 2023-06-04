@@ -9,7 +9,7 @@ public class VisitRequest : IAggregationRoot
 {
     public Guid Id { get; private set; }
     
-    public Form Form { get; private set; }
+    public virtual Form Form { get; private set; }
 
     public virtual User? WhoProcessed { get; private set; }
 
@@ -17,7 +17,9 @@ public class VisitRequest : IAggregationRoot
 
     public string? RejectionReason { get; private set; }
     
-    private VisitRequest() { }
+#pragma warning disable CS8618
+    protected VisitRequest() { }
+#pragma warning restore CS8618
 
     public VisitRequest(Form form)
     {

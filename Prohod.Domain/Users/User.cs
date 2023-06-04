@@ -14,6 +14,10 @@ public class User : IAggregationRoot
     
     public Role Role { get; private set; }
     
+#pragma warning disable CS8618
+    protected User() { }
+#pragma warning restore CS8618
+    
     public User(string name, string surname, string userEmail, Role role)
     {
         Id = Guid.NewGuid();
