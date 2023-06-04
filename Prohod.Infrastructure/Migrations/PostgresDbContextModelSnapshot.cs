@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using Prohod.Domain.Users;
+using Prohod.Domain.VisitRequests;
 using Prohod.Infrastructure.Database;
 
 #nullable disable
@@ -18,8 +20,12 @@ namespace Prohod.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "user", "security", "admin" });
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "visit_request_status", new[] { "not_processed", "reject", "accept" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
@@ -60,8 +66,8 @@ namespace Prohod.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
+                    b.Property<Role>("Role")
+                        .HasColumnType("role");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -88,8 +94,8 @@ namespace Prohod.Infrastructure.Migrations
                     b.Property<string>("RejectionReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<VisitRequestStatus>("Status")
+                        .HasColumnType("visit_request_status");
 
                     b.Property<Guid?>("WhoProcessedId")
                         .HasColumnType("uuid");

@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Prohod.Domain.Users;
+using Prohod.Domain.VisitRequests;
 
 #nullable disable
 
@@ -12,6 +14,7 @@ namespace Prohod.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:Enum:role", "user,security,admin")
                 .Annotation("Npgsql:Enum:visit_request_status", "not_processed,reject,accept");
 
             migrationBuilder.CreateTable(
@@ -22,7 +25,7 @@ namespace Prohod.Infrastructure.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Surname = table.Column<string>(type: "text", nullable: false),
                     UserEmail = table.Column<string>(type: "text", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false)
+                    Role = table.Column<Role>(type: "role", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +85,7 @@ namespace Prohod.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FormId = table.Column<Guid>(type: "uuid", nullable: false),
                     WhoProcessedId = table.Column<Guid>(type: "uuid", nullable: true),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<VisitRequestStatus>(type: "visit_request_status", nullable: false),
                     RejectionReason = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
