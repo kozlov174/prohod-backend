@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using Prohod.WebApi.Accounts.Configuration;
 using Prohod.WebApi.Configuration;
@@ -20,6 +21,11 @@ builder.Services.AddCors(options =>
             builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
         });
 });
+var cert = new X509Certificate2("../CA.pem");
+var store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
+store.Open(OpenFlags.ReadWrite);
+store.Add(cert);
+store.Close();
 
 builder.Services
     .AddSwagger()
