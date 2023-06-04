@@ -21,11 +21,6 @@ builder.Services.AddCors(options =>
             builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
         });
 });
-var cert = new X509Certificate2("../CA.pem");
-var store = new X509Store(StoreName.Root, StoreLocation.CurrentUser);
-store.Open(OpenFlags.ReadWrite);
-store.Add(cert);
-store.Close();
 
 builder.Services
     .AddSwagger()
