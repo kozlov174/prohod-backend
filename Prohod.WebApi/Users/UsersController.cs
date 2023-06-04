@@ -14,7 +14,7 @@ public class UsersController : ControllerBase
         this.usersRepository = usersRepository;
     }
 
-    [HttpGet("users/available-to-visit")]
+    [HttpGet("available-to-visit")]
     public async Task<ActionResult<GetAvailableToVisitUsersResponse>> GetAvailableToVisitUsers()
     {
         return Ok(new GetAvailableToVisitUsersResponse(await usersRepository.GetAvailableToVisitUsersAsync()));

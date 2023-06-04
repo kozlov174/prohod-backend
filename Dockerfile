@@ -15,9 +15,7 @@ RUN dotnet build "Prohod.WebApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Prohod.WebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
-RUN mkdir --parents ~/.postgresql
-RUN wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" --output-document ~/.postgresql/root.crt
-RUN chmod 0600 ~/.postgresql/root.crt
+
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
