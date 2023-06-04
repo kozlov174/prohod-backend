@@ -13,15 +13,6 @@ builder.Services
     .AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: "cors",
-        builder =>
-        {
-            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        });
-});
-
 builder.Services
     .AddSwagger()
     .AddAccountsServices()
@@ -33,7 +24,6 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseCors("cors");
 app.UseHsts();
 app.UseSwagger();
 app.UseSwaggerUI();
