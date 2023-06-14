@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using Prohod.WebApi.Accounts.Configuration;
 using Prohod.WebApi.Configuration;

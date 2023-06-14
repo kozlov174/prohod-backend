@@ -9,8 +9,8 @@ public class EmailQrCodeSender : IEmailQrCodeSender
     public async Task SendAsync(string base64QrCode, string email)
     {
         var message = new MimeMessage();
-        var from = new MailboxAddress("back", "idk@lol.com");
-        var to = new MailboxAddress("user", "idkuser@lol.com");
+        var from = new MailboxAddress("back", "prohod@prohod.com");
+        var to = new MailboxAddress("user", email);
         message.From.Add(from);
         message.To.Add(to);
         var bodyBuilder = new BodyBuilder();
