@@ -1,0 +1,23 @@
+- hosts: "all" #задачи для установки на всех серверах
+  tasks:
+  - name: Install git
+    apt:
+      name: git
+      state: present
+      update_cache: yes
+  - name: install docker
+    apt:
+      name: docker.io
+      state: present
+      update_cache: yes
+    
+
+
+
+- hosts: "database" #задачи для установки на сервере базы данных
+  tasks:
+    - name: install postgres SQL  
+      apt:
+        name: postgresql
+        state: present
+        update_cache: yes
