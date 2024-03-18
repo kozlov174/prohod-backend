@@ -1,12 +1,5 @@
 ﻿version: "3"
 services:
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
-      - 9090:9090
   grafana:
     image: grafana/grafana:latest
     container_name: grafana

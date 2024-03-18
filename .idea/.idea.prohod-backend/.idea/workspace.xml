@@ -9,103 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91fbe3be-fac1-4737-b258-f5d21d8e386a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.terraformrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/AggregationRoot/IAggregationRoot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/ErrorsBase/IOperationError.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/ErrorsBase/IOperationErrorVisitor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Forms/ApplyFormDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Forms/Form.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Forms/IFormsRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Forms/Passport.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/GenericRepository/EntityNotFoundError.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/GenericRepository/IRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Prohod.Domain.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/QrCodes/IQrCodesService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Users/IUsersRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Users/Role.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/Users/User.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/VisitRequests/IVisitRequestsRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/VisitRequests/IVisitRequestsService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/VisitRequests/ProcessVisitRequestError.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/VisitRequests/VisitRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/VisitRequests/VisitRequestStatus.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Domain/VisitRequests/VisitRequestsService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/AccountsService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Errors/IAccountsServiceError.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Errors/IAccountsServiceErrorVisitor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/IAccountsService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/JwtTokens/IJwtTokensGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/JwtTokens/JwtToken.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/JwtTokens/JwtTokensGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/Account.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/AccountEntityConfiguration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/AuthenticatedUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/CreateAccount/AccountCredentials.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/CreateAccount/CreateAccountDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/CreateAccount/CreateAccountUserDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Models/CreateAccount/LoginAlreadyExistsError.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Options/AuthenticationOptions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Options/Configuration/ConfigureAuthenticationOptions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Passwords/IPasswordsHashCalculator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Passwords/Options/Configuration/ConfigurePasswordsSaltOptions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Passwords/Options/PasswordsSalt.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Passwords/PasswordsHashCalculator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Repository/AccountsRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Accounts/Repository/IAccountsRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Database/IAppDbContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Database/PostgresDbContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Database/RepositoryBase.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Forms/FormEntityConfiguration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Forms/FormsRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Migrations/20230604103542_Initial.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Migrations/20230604103542_Initial.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Migrations/PostgresDbContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Prohod.Infrastructure.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/QrCodes/EmailQrCodeSender.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/QrCodes/FormQrCodeGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/QrCodes/IEmailQrCodeSender.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/QrCodes/IFormQrCodeGenerator.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/QrCodes/QrCodesService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/Users/UsersRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/VisitRequests/VisitRequestEntityConfiguration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.Infrastructure/VisitRequests/VisitRequestsRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/AccountsController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/Configuration/AccountsRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/Configuration/ConfigureJwtBearerOptions.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/Models/CreateAccount/CreateAccountRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/Models/CreateAccount/CreateAccountResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/Models/Login/LoginRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Accounts/Models/Login/LoginResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/AssemblyApiControllerAttribute.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Authorization/AuthorizedRolesAttribute.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Configuration/PostgresDbContextRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Configuration/SwaggerRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Errors/AccountsServiceErrorVisitor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Errors/ErrorVisitorsRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Errors/OperationErrorVisitor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Forms/FormsServicesRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Prohod.WebApi.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Users/Models/GetAvailableToVisitUsers/GetAvailableToVisitUsersResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Users/UsersController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/Users/UsersServicesRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/VisitRequests/Configuration/VisitRequestsServicesRegistrar.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/VisitRequests/Models/AcceptVisitRequest/AcceptVisitRequestRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/VisitRequests/Models/ApplyForm/ApplyFormRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/VisitRequests/Models/GetVisitRequestsPage/GetVisitRequestsPageResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/VisitRequests/Models/RejectVisitRequest/RejectVisitRequestRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/VisitRequests/VisitRequestsController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prohod.WebApi/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Terraform.tf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hosts.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/playbook.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/prohod-backend.sln" beforeDir="false" />
+    <list default="true" id="91fbe3be-fac1-4737-b258-f5d21d8e386a" name="Changes" comment="refactor project struct">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.prohod-backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.prohod-backend/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -286,8 +191,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1710751495161</updated>
-      <workItem from="1710751497598" duration="4351000" />
+      <workItem from="1710751497598" duration="5658000" />
     </task>
+    <task id="LOCAL-00001" summary="refactor project struct">
+      <option name="closed" value="true" />
+      <created>1710762236534</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710762236535</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,5 +210,7 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="refactor project struct" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor project struct" />
   </component>
 </project>
