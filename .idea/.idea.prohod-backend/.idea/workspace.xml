@@ -9,8 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91fbe3be-fac1-4737-b258-f5d21d8e386a" name="Changes" comment="refactor project struct">
+    <list default="true" id="91fbe3be-fac1-4737-b258-f5d21d8e386a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.prohod-backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.prohod-backend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend repo/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend repo/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend repo/prometheus.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend repo/prometheus.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +52,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Docker.backend repo.node-exporter: Compose Deployment.executor": "Run",
+    "Docker.backend repo.prometheus: Compose Deployment.executor": "Run",
+    "Docker.backend repo.server: Compose Deployment.executor": "Run",
     "Docker.backend repo: Compose Deployment.executor": "Run",
     "Docker.devops repo: Compose Deployment.executor": "Run",
     "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
@@ -73,7 +77,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected="Docker.devops repo: Compose Deployment">
+  <component name="RunManager" selected="Docker.backend repo: Compose Deployment">
     <configuration name="Prohod.WebApi: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Prohod.WebApi/Prohod.WebApi.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net7.0" />
@@ -146,20 +150,38 @@
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
-    <configuration name="devops repo: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="backend repo.prometheus: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="sourceFilePath" value="devops repo/docker-compose.yml" />
+          <option name="services">
+            <list>
+              <option value="prometheus" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="backend repo/docker-compose.yml" />
         </settings>
       </deployment>
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="backend repo.server: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
-          <option name="envFilePath" value="" />
-          <option name="sourceFilePath" value="docker-compose.yml" />
+          <option name="services">
+            <list>
+              <option value="server" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="backend repo/docker-compose.yml" />
+        </settings>
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="devops repo: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="sourceFilePath" value="devops repo/docker-compose.yml" />
         </settings>
       </deployment>
       <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
@@ -170,16 +192,18 @@
       <item itemvalue=".NET Launch Settings Profile.Prohod.WebApi: https" />
       <item itemvalue=".NET Launch Settings Profile.Prohod.WebApi: httpsProduction" />
       <item itemvalue="Docker.backend repo.node-exporter: Compose Deployment" />
+      <item itemvalue="Docker.backend repo.prometheus: Compose Deployment" />
+      <item itemvalue="Docker.backend repo.server: Compose Deployment" />
       <item itemvalue="Docker.backend repo: Compose Deployment" />
       <item itemvalue="Docker.devops repo: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.devops repo: Compose Deployment" />
         <item itemvalue="Docker.backend repo: Compose Deployment" />
         <item itemvalue="Docker.backend repo.node-exporter: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.backend repo.prometheus: Compose Deployment" />
+        <item itemvalue="Docker.backend repo.server: Compose Deployment" />
+        <item itemvalue="Docker.devops repo: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -191,7 +215,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1710751495161</updated>
-      <workItem from="1710751497598" duration="5658000" />
+      <workItem from="1710751497598" duration="14003000" />
     </task>
     <task id="LOCAL-00001" summary="refactor project struct">
       <option name="closed" value="true" />
@@ -201,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710762236535</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="new version for docker compose">
+      <option name="closed" value="true" />
+      <created>1710765491495</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710765491495</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,6 +243,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="refactor project struct" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor project struct" />
+    <MESSAGE value="new version for docker compose" />
+    <option name="LAST_COMMIT_MESSAGE" value="new version for docker compose" />
   </component>
 </project>
