@@ -3,11 +3,6 @@ services:
   node-exporter:
     image: prom/node-exporter
     container_name: node-exporter
-#    ports:
-#      - "9100:9100"
-#    networks:
-#      mynetwork:
-#        ipv4_address: 192.168.5.2
     expose:
       - 9100
     restart: always
@@ -23,21 +18,3 @@ services:
     ports:
       - "9090:9090"
     restart: always
-#    networks:
-#      - mynetwork
-  server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-      - "443:443"
-    restart: always
-#networks:
-#  mynetwork:
-#    driver: bridge
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: 192.168.5.0/24
-#        - ip_range: 192.168.5.0/24

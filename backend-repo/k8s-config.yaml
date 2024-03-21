@@ -1,0 +1,13 @@
+﻿apiVersion: apps/v1
+kind: deployment
+metadata:
+  name: prohod-production
+  labels:
+    app: prohod
+spec: 
+  minReplicas: 1
+  maxReplicas: 10
+  containers:
+    - name: prohod-backend
+      image: #указать продовый имэдж
+      
